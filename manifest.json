@@ -1,0 +1,10 @@
+{
+	"id": "deep-sea-glyphs",
+	"name": "Deep Sea Glyphs",
+	"version": "0.1.0",
+	"minAppVersion": "1.8.7",
+	"description": "Animated glyph deep-sea background with jellyfish, sharks and fish schools, typing ripples, and a resizable writing card.",
+	"author": "darkenness",
+	"authorUrl": "https://github.com/darkenness",
+	"isDesktopOnly": true
+}

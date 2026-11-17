@@ -1,0 +1,272 @@
+/* Deep Sea Glyphs
+   Everything except the background canvas only applies while body.deep-sea-active is set.
+   Selectors repeat the root class (body.deep-sea-active.deep-sea-active) to outrank theme rules
+   without !important. */
+
+/* ---------- Background layer ---------- */
+
+.deep-sea-bg-root {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	pointer-events: none;
+	user-select: none;
+	background: #03080f;
+}
+
+.deep-sea-bg-root.is-hidden {
+	display: none;
+}
+
+.deep-sea-bg-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.deep-sea-bg-dim {
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(ellipse 62% 54% at 50% 48%, rgba(20, 68, 92, 0.05) 0%, rgba(2, 7, 14, 0.34) 100%),
+		rgba(2, 7, 14, var(--deep-sea-dim, 0.18));
+}
+
+/* ---------- Caret crosshair ---------- */
+
+.deep-sea-anchor-hud {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: var(--layer-tooltip);
+	pointer-events: none;
+	opacity: 0;
+	transform: translate3d(var(--deep-sea-hud-x, -9999px), var(--deep-sea-hud-y, -9999px), 0);
+	transition: opacity 0.26s ease;
+}
+
+.deep-sea-anchor-hud.is-visible {
+	opacity: 1;
+}
+
+.deep-sea-anchor-reticle {
+	position: absolute;
+	left: -8px;
+	top: -8px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 1px dashed rgba(138, 224, 242, 0.42);
+	box-shadow: 0 0 10px rgba(123, 227, 245, 0.2);
+}
+
+.deep-sea-anchor-reticle::before,
+.deep-sea-anchor-reticle::after {
+	content: "";
+	position: absolute;
+	background: rgba(183, 175, 232, 0.52);
+}
+
+.deep-sea-anchor-reticle::before {
+	left: -4px;
+	right: -4px;
+	top: 7px;
+	height: 1px;
+}
+
+.deep-sea-anchor-reticle::after {
+	top: -4px;
+	bottom: -4px;
+	left: 7px;
+	width: 1px;
+}
+
+.deep-sea-anchor-badge {
+	position: absolute;
+	left: 11px;
+	top: 6px;
+	white-space: nowrap;
+	padding: 1px 6px;
+	border-radius: 999px;
+	font-family: var(--font-monospace);
+	font-size: 9px;
+	line-height: 1.45;
+	color: rgba(196, 236, 246, 0.76);
+	background: rgba(8, 20, 33, 0.68);
+	border: 1px solid rgba(138, 214, 235, 0.2);
+}
+
+/* ---------- Card resize ---------- */
+
+.deep-sea-resize-hud {
+	position: fixed;
+	left: 50%;
+	top: 54px;
+	transform: translateX(-50%);
+	z-index: var(--layer-notice);
+	pointer-events: none;
+	padding: 4px 12px;
+	border-radius: 999px;
+	font-family: var(--font-monospace);
+	font-size: 11.5px;
+	color: #dff6fc;
+	background: rgba(10, 26, 42, 0.88);
+	border: 1px solid rgba(123, 227, 245, 0.42);
+	opacity: 0;
+	transition: opacity 0.18s ease;
+}
+
+.deep-sea-resize-hud.is-visible {
+	opacity: 1;
+}
+
+/* The drag must show the resize cursor over every element it crosses. */
+body.deep-sea-resizing,
+body.deep-sea-resizing * {
+	cursor: ew-resize !important;
+	user-select: none;
+}
+
+body.deep-sea-edge-hover .workspace-split.mod-root .view-content {
+	cursor: ew-resize;
+}
+
+/* ---------- Status bar ---------- */
+
+.deep-sea-status {
+	cursor: pointer;
+	border-radius: 999px;
+}
+
+body.deep-sea-active .deep-sea-status {
+	color: #a8e4f0;
+	background: rgba(18, 42, 62, 0.58);
+}
+
+/* ---------- Translucent workspace ---------- */
+
+body.deep-sea-active.deep-sea-active.theme-dark {
+	--background-primary: rgba(9, 19, 31, 0.7);
+	--background-primary-alt: rgba(13, 26, 40, 0.64);
+	--background-secondary: rgba(7, 16, 27, var(--deep-sea-sidebar-alpha, 0.44));
+	--background-secondary-alt: rgba(10, 21, 34, 0.58);
+	--background-modifier-border: rgba(145, 206, 228, 0.13);
+	--background-modifier-border-hover: rgba(155, 220, 242, 0.26);
+	--background-modifier-hover: rgba(130, 205, 228, 0.09);
+	--background-modifier-active-hover: rgba(130, 205, 228, 0.15);
+	--titlebar-background: transparent;
+	--titlebar-background-focused: transparent;
+	--tab-container-background: transparent;
+	--ribbon-background: transparent;
+	--ribbon-background-collapsed: transparent;
+	--status-bar-background: transparent;
+	--text-normal: #dfe9ef;
+	--text-muted: #98b1bf;
+	--text-faint: #6e8999;
+	--interactive-accent: #68cbe2;
+	--interactive-accent-hover: #8ee1f4;
+	--divider-color: rgba(145, 206, 228, 0.1);
+	--file-line-width: var(--deep-sea-editor-width, 960px);
+}
+
+body.deep-sea-active.deep-sea-active.deep-sea-full-width {
+	--file-line-width: calc(100% - 48px);
+}
+
+body.deep-sea-active.deep-sea-active,
+body.deep-sea-active.deep-sea-active .app-container,
+body.deep-sea-active.deep-sea-active .horizontal-main-container,
+body.deep-sea-active.deep-sea-active .workspace,
+body.deep-sea-active.deep-sea-active .workspace-split,
+body.deep-sea-active.deep-sea-active .workspace-tabs,
+body.deep-sea-active.deep-sea-active .workspace-tab-container,
+body.deep-sea-active.deep-sea-active .workspace-tab-header-container,
+body.deep-sea-active.deep-sea-active .workspace-leaf,
+body.deep-sea-active.deep-sea-active .workspace-leaf-content,
+body.deep-sea-active.deep-sea-active .view-header,
+body.deep-sea-active.deep-sea-active .view-content,
+body.deep-sea-active.deep-sea-active .markdown-source-view,
+body.deep-sea-active.deep-sea-active .markdown-reading-view,
+body.deep-sea-active.deep-sea-active .cm-editor,
+body.deep-sea-active.deep-sea-active .cm-scroller,
+body.deep-sea-active.deep-sea-active .cm-gutters,
+body.deep-sea-active.deep-sea-active .titlebar,
+body.deep-sea-active.deep-sea-active .titlebar-inner,
+body.deep-sea-active.deep-sea-active .workspace-ribbon,
+body.deep-sea-active.deep-sea-active .status-bar {
+	background: transparent;
+}
+
+/* Sidebars: one translucent pane, set by the "Sidebar opacity" setting. */
+body.deep-sea-active.deep-sea-active .workspace-split.mod-left-split,
+body.deep-sea-active.deep-sea-active .workspace-split.mod-right-split {
+	background: rgba(7, 16, 27, var(--deep-sea-sidebar-alpha, 0.44));
+}
+
+body.deep-sea-active.deep-sea-active .workspace-split.mod-left-split .workspace-leaf-content,
+body.deep-sea-active.deep-sea-active .workspace-split.mod-right-split .workspace-leaf-content,
+body.deep-sea-active.deep-sea-active .nav-files-container {
+	background: transparent;
+}
+
+body.deep-sea-active.deep-sea-active .workspace-tab-header.is-active {
+	background: rgba(15, 33, 50, 0.68);
+	box-shadow: inset 0 -2px 0 rgba(164, 152, 238, 0.82);
+}
+
+/* Pop-ups keep a nearly opaque background so they stay readable over the animation. */
+body.deep-sea-active.deep-sea-active .modal,
+body.deep-sea-active.deep-sea-active .prompt,
+body.deep-sea-active.deep-sea-active .menu,
+body.deep-sea-active.deep-sea-active .suggestion-container,
+body.deep-sea-active.deep-sea-active .popover {
+	background: rgba(11, 23, 36, 0.95);
+	border: 1px solid rgba(145, 208, 228, 0.22);
+}
+
+body.deep-sea-active.deep-sea-active .canvas-wrapper {
+	background: transparent;
+}
+
+body.deep-sea-active.deep-sea-active .canvas-node-container {
+	background: rgba(10, 22, 35, 0.88);
+}
+
+body.deep-sea-active.deep-sea-active .workspace-leaf-content[data-type="pdf"] .view-content {
+	background: rgba(10, 18, 28, 0.92);
+}
+
+/* ---------- Writing card ---------- */
+
+body.deep-sea-card-mode.deep-sea-active.deep-sea-active .mod-root .workspace-leaf-content[data-type="markdown"] :is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-preview-view .markdown-preview-sizer) {
+	box-sizing: border-box;
+	width: min(var(--deep-sea-editor-width, 960px), calc(100% - 32px));
+	max-width: min(var(--deep-sea-editor-width, 960px), calc(100% - 32px));
+	margin: 10px auto 28px;
+	padding: 28px 34px 24vh;
+	background: linear-gradient(160deg, rgba(10, 22, 35, var(--deep-sea-card-alpha, 0.73)), rgba(6, 14, 25, var(--deep-sea-card-alpha, 0.73)));
+	border: 1px solid rgba(145, 210, 232, 0.17);
+	border-radius: 16px;
+	box-shadow: 0 20px 56px rgba(0, 5, 14, 0.4);
+	transition: border-color 0.2s ease;
+}
+
+body.deep-sea-card-mode.deep-sea-full-width.deep-sea-active.deep-sea-active .mod-root .workspace-leaf-content[data-type="markdown"] :is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-preview-view .markdown-preview-sizer) {
+	width: calc(100% - 32px);
+	max-width: calc(100% - 32px);
+}
+
+body.deep-sea-card-mode.deep-sea-card-blur.deep-sea-active .mod-root .workspace-leaf-content[data-type="markdown"] :is(.cm-sizer, .markdown-preview-sizer) {
+	backdrop-filter: blur(12px);
+}
+
+body.deep-sea-card-mode.deep-sea-active.deep-sea-active .mod-root .workspace-leaf-content[data-type="markdown"] :is(.cm-content, .cm-line) {
+	max-width: 100%;
+}
+
+/* Edge highlight while the pointer is on a card edge or dragging it. */
+body.deep-sea-card-mode:is(.deep-sea-edge-hover, .deep-sea-resizing).deep-sea-active .mod-root .workspace-leaf.mod-active .workspace-leaf-content[data-type="markdown"] :is(.cm-sizer, .markdown-preview-sizer) {
+	border-left-color: rgba(123, 227, 245, 0.65);
+	border-right-color: rgba(123, 227, 245, 0.65);
+}
